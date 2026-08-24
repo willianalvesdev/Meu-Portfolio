@@ -5,7 +5,10 @@
     --text: #ffffff;
     --secondary-text: #969696;
     --border: #191919;
-    --spacing: 20px;
+    --spacing: 15px;
+
+    --ibmmono: "IBM Plex Mono", monospace;
+    --ibmsans: "IBM Plex Sans", sans-serif;
 
 }
 
@@ -13,154 +16,191 @@
 
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
-  
+
 }
 
 body {
 
-    background:var(--bg);
-    color:var(--text);
-    -webkit-font-smoothing: antialiased;
-  
+    background: var(--bg);
+    color: var(--text);
+    margin-left: 5px;
+    margin-right: 5px;
+    font-family: var(--ibmmono);
+    font-weight: 400;
+    font-size: 0.95rem;
+
 }
 
-.header {
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--border);
+    pointer-events: none;
+    z-index: 9999;
+}
+
+body::before {
+
+    left: 5px;
+
+}
+
+body::after {
+
+    right: 5px;
+
+}
+
+.texture {
+
+    background-image: repeating-linear-gradient(
+        -45deg,
+        transparent 0px,
+        transparent 6px,
+        var(--border) 6px,
+        var(--border) 7px
+    );
+
+}
+
+header {
 
     position: fixed;
-
-    width: 100%;
-    height: 50px;
-
-    padding: 0 30px;
-
-    box-sizing: border-box;
-
     background: var(--bg);
-
+    height: 48px;
+    width: calc(100% - 40px);
+    margin-left: -5px;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
-
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    padding: 0 20px 0 20px;
 
 }
 
-/* =========================
-   Logo
-   ========================= */
+.logo-header {
 
-.logo {
-    
     height: 35px;
 
 }
 
-/* =========================
-   LADO DIREITO
-   ========================= */
+.top-section {
 
-.header-right {
-    
+    padding-top: 48px;
+    height: 200px;
+    width: 100%;
     display: flex;
-    align-items: center;
-
-    gap: 35px;
-}
-
-
-/* =========================
-   SEARCH
-   ========================= */
-
-.search {
-
-    width: 100px;
-    height: 90%;
-
-    border-radius: 50px;
-
-    background: var(--accent);
-
-    display: flex;
-    align-items: center;
-
-    color: var(--secondary-text);
-    
-}
-
-
-/* =========================
-   DIVISOR
-   ========================= */
-
-.header-divider {
-    width: 1px;
-    height: 15px;
-
-    background: #202020;
-}
-
-
-/* =========================
-   MENU
-   ========================= */
-
-.menu-button {
-    width: 15px;
-    height: 42px;
-
-    border: none;
-    background: transparent;
-
-    display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-bottom: 1px solid var(--border);
+    background-image: radial-gradient(
+        var(--border) 1px,
+        transparent 1px
+    );
 
-    gap: 5px;
-
-    cursor: pointer;
-}
-
-.menu-button span {
-
-    display: block;
-
-    width: 15px;
-    height: 2px;
-
-    background: #fff;
-
-    border-radius: 2px;
-
-    transition:
-        transform 0.25s ease,
-        opacity 0.2s ease;
-}
-
-
-/* =========================
-   MENU ABERTO
-   ========================= */
-
-.menu-button.active span:first-child {
-    transform: translateY(3.5px) rotate(45deg);
-}
-
-.menu-button.active span:last-child {
-    transform: translateY(-3.5px) rotate(-45deg);
-}
-
-/* =========================
-   MAIN
-   ========================= */
-
-.main {
-
-    margin: 0 20px 0 20px;
-    border-left: 1px var(--border);
-    border-right: 1px var(--border);
+    background-size: 8px 8px;
     
+}
+
+.profile-section {
+
+    width: 100%;
+    height: 140px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    
+}
+
+.profile {
+
+    height: auto;
+    width: 140px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+}
+
+.profilepic {
+
+    width: calc(100% - 6px);
+    border-radius: 100%;
+    outline: 1px solid var(--border);
+    outline-offset: 2px;
+
+}
+
+.flag {
+
+    position: absolute;
+
+    width: 45px;
+
+    left: 0;
+    top: 0;
+
+    object-fit: cover;
+
+}
+
+.profile-right {
+
+    width: calc(100% - 130px);
+    display: flex;
+    flex-direction: column;
+}
+
+.space {
+
+    width: 100%;
+    height: 10px;
+    border-bottom: 1px solid var(--border);
+
+}
+
+.name-container {
+
+    height: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+
+}
+
+.name {
+
+    font-family: var(--ibmsans);
+    font-weight: 600;
+    font-size: 2rem;
+    padding-left: var(--spacing);
+}
+
+.bio-container {
+
+    height: 60px;
+    display: flex;
+    align-items: center;
+    
+}
+
+.bio {
+
+    color: var(--secondary-text);
+    padding-left: var(--spacing);
+    white-space: nowrap;
+    opacity: 0.8;
+}
+
+.spacebig {
+
+    width: 100%;
+    height: 30px;
+    border-bottom: 1px solid var(--border);
+
 }
