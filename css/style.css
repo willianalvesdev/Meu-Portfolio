@@ -6,8 +6,9 @@
     --secondary-text: #969696;
     --border: #191919;
     --spacing: 15px;
-    --left: 25px;
-    --top: 40px;
+    --left: 30px;
+    --right: 15px;
+    --top: 20px;
 
     --ibmmono: "IBM Plex Mono", monospace;
     --ibmsans: "IBM Plex Sans", sans-serif;
@@ -31,11 +32,9 @@ body {
 
     background: var(--bg);
     color: var(--text);
-    margin-left: 5px;
-    margin-right: 5px;
     font-family: var(--ibmmono);
     font-weight: 400;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 
 }
 
@@ -53,13 +52,15 @@ body::after {
 
 body::before {
 
-    left: 5px;
+    left: 10px;
+    z-index: 10;
 
 }
 
 body::after {
 
-    right: 5px;
+    right: 10px;
+    z-index: 10;
 
 }
 
@@ -79,14 +80,14 @@ header {
 
     position: fixed;
     background: var(--bg);
-    height: 48px;
+    height: 50px;
     width: calc(100% - 40px);
-    margin-left: -5px;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     padding: 0 20px 0 20px;
+    z-index: 5;
 
 }
 
@@ -98,9 +99,9 @@ header {
 
 .top-section {
 
-    padding-top: 48px;
+    padding-top: 50px;
     height: 200px;
-    width: 100%;
+    width: calc(100% - 20px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,6 +112,7 @@ header {
     );
 
     background-size: 8px 8px;
+    margin: 0 10px 0 10px;
     
 }
 
@@ -125,6 +127,7 @@ header {
 
 .profile {
 
+    margin-left: 10px;
     height: auto;
     width: 140px;
     border-right: 1px solid var(--border);
@@ -213,6 +216,11 @@ header {
 
 }
 
+.complete {
+
+    border-top: 1px solid var(--border);
+}
+
 .info-section {
 
     border-bottom: 1px solid var(--border);
@@ -256,12 +264,166 @@ header {
 
 .info-text {
 
-    padding-left: var(--left);
+    padding-left: var(--right);
     
 }
 
 .info-text span {
     
     color: var(--secondary-text);
+
+}
+
+.contact-section {
+
+    padding-top: var(--top);
+    padding-bottom: var(--top);
+    display: flex;
+    flex-direction: column;
+    gap: var(--top);
+
+}
+
+.contact-container {
+
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    padding: var(--left) 0 var(--top) var(--left);
+
+}
+
+.contact-icon {
+
+    height: 50px;
+    border: 1px solid var(--accent);
+    border-radius: 25%;
+    outline: 1px solid var(--border);
+    outline-offset: 2px;
+
+}
+
+.contact-container-right {
+
+    font-family: var(--ibmsans);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding-left: var(--right);
+
+}
+
+.contact-title {
+
+    font-size: 1rem;
+    font-weight: 500;
+
+}
+
+.contact-username {
+
+    color: var(--secondary-text);
+
+}
+
+.goto {
+
+    height: 20px;
+    align-self: center;
+    padding-right: var(--left);
+}
+
+.title {
+
+    font-family: var(--ibmsans);
+    font-weight: 600;
+    font-size: 2rem;
+    padding-left: var(--left);
+
+}
+
+.about-section {
+
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    margin-bottom: var(--top);
+    display: flex;
+    flex-direction: column;
+    gap: var(--top);
+
+}
+
+.about-container {
+
+    display: flex;
+    padding: var(--left) var(--left) var(--top) var(--left);
+    
+}
+
+.about-list {
+
+    padding-left: 20px;
+
+}
+
+.about-list li {
+
+    word-break: break-word;
+
+}
+
+.brand-section {
+
+    display: flex;
+    flex-direction: column;
+
+}
+
+.brand-container {
+
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    height: 120px;
+    border-top: 1px solid var(--border);
+    padding-left: 10px;
+    padding-right: 30px;
+
+}
+
+.brand-left-container {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 120px;
+    border-right: 1px dashed var(--border);
+}
+
+.brand-left-container p {
+
+    color: var(--secondary-text);
+    font-family: var(--ibmsans);
+    transform: rotate(270deg);
+}
+
+.brand-right-container {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+}
+
+.logo-brand-one {
+
+    height: 40px;
+}
+
+.logo-brand-two {
+
+    height: 25px;
 
 }
