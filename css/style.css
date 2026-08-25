@@ -101,6 +101,7 @@ header {
     display: flex;
     align-items: center;
     padding: 0 20px 0 20px;
+    overflow: hidden;
     z-index: 5;
 
 }
@@ -108,15 +109,29 @@ header {
 .logo-header {
     height: 35px;
     opacity: 0;
-    transform: translateY(6px);
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform: translateY(10px);
+    filter: blur(3px);
+    transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+    will-change: opacity, transform, filter;
     pointer-events: none;
 }
 
 .logo-header.visivel {
     opacity: 1;
     transform: translateY(0);
+    filter: blur(0);
     pointer-events: auto;
+}
+
+.github-link {
+
+    margin-left: auto;
+}
+
+.github-header {
+
+    height: 20px;
+
 }
 
 .top-section {
@@ -219,6 +234,7 @@ header {
     height: 60px;
     display: flex;
     align-items: center;
+    overflow: hidden;
     
 }
 
@@ -228,6 +244,29 @@ header {
     padding-left: var(--spacing);
     white-space: nowrap;
     opacity: 0.8;
+    overflow: hidden;
+}
+
+.bio-text {
+
+    display: inline-block;
+    transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
+    will-change: opacity, transform, filter;
+}
+
+.bio-text.saindo {
+
+    opacity: 0;
+    transform: translateY(-10px);
+    filter: blur(3px);
+}
+
+.bio-text.entrando {
+
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
+    transition: none;
 }
 
 .spacebig {
@@ -311,7 +350,8 @@ header {
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     display: flex;
-    padding: var(--left) 0 var(--top) var(--left);
+    align-items: center;
+    padding: 13px 0 13px var(--left);
 
 }
 
@@ -348,11 +388,17 @@ header {
 
 }
 
+.contact-link {
+
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    padding: 0 var(--left) 0 var(--right);
+}
+
 .goto {
 
     height: 20px;
-    align-self: center;
-    padding-right: var(--left);
 }
 
 .title {
@@ -527,7 +573,7 @@ footer {
 
 }
 
-.footer-section span {
+.footer-section a {
 
     font-weight: 500;
     text-decoration: underline 1px;
@@ -562,4 +608,27 @@ footer {
     border-right: solid 1px var(--border);
     width: 100px;
 
+}
+
+.error-page {
+
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.error-text {
+
+    padding-bottom: var(--top);
+    font-weight: 500;
+}
+
+.error-button {
+
+    background: var(--accent);
+    padding: 15px;
+    border: 1px solid var(--border);
 }

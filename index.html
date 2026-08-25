@@ -4,6 +4,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="description" content="Portfólio de Willian Alves, desenvolvedor Fullstack. Conheça seus projetos, habilidades, tecnologias e formas de contato.">
     <link rel="stylesheet" href="css/style.css">
     <meta name="theme-color" content="#0A0A0A">
     <meta name="format-detection" content="telephone=no">
@@ -32,6 +33,11 @@
 
     <header>
         <img src="assets/logos/WA.svg" alt="WA" class="logo-header">
+
+        <a href="https://github.com/willianalvesdev/Meu-Portfolio" class="github-link">
+            <img src="assets/Icons/GitHub.svg" class="github-header" alt="GitHub">
+        </a>
+
     </header>
 
     <button id="btnTopo" aria-label="Voltar ao topo">
@@ -57,7 +63,9 @@
     </div>
 
     <div class="bio-container">
-        <div class="bio"> Desenvolvedor Fullstack </div>
+        <div class="bio" aria-label="Desenvolvedor Fullstack, Frontend, Backend e Mobile">
+            <span class="bio-text" aria-hidden="true">Desenvolvedor Fullstack</span>
+        </div>
     </div>
 
      </div>
@@ -77,13 +85,16 @@
             <div class="icon-frame">
                 <img src="assets/Icons/Hour.svg" class="info-icon">
             </div>
-            <p class="info-text"> 23:50 <span> // UTC -3 </span> </p>
+            <p class="info-text">
+                <time id="horario-brasilia">--:--</time>
+                <span> // UTC -3 </span>
+            </p>
         </div>
         <div class="info-container">
             <div class="icon-frame">
                 <img src="assets/Icons/Phone.svg" class="info-icon">
             </div>
-            <p class="info-text"> +55 (19) 99154-3993 <span>// Brasil </span></p>
+            <p class="info-text"> +55 (19) 99154-3993 <span>// Brazil </span></p>
         </div>
         <div class="info-container">
             <div class="icon-frame">
@@ -107,36 +118,44 @@
             <img src="assets/Social Media/LinkedIn.svg" class="contact-icon">
         <div class="contact-container-right">
             <p class="contact-title"> LinkedIn </p>
-            <p class="contact-username"> @adsadasdasdadasddas </p>
+            <p class="contact-username"> @Willian Alves do Nascimento </p>
         </div>
-        <img src="assets/Icons/Goto.svg" class="goto">
+        <a href="https://www.linkedin.com/in/willian-alves-do-nascimento-913721343" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Abrir perfil no LinkedIn">
+            <img src="assets/Icons/Goto.svg" class="goto" alt="">
+        </a>
         </div>
 
         <div class="contact-container">
             <img src="assets/Social Media/GitHub.svg" class="contact-icon">
         <div class="contact-container-right">
             <p class="contact-title"> GitHub </p>
-            <p class="contact-username"> @adsadasdasdadasddas </p>
+            <p class="contact-username"> @willianalvesdev </p>
         </div>
-        <img src="assets/Icons/Goto.svg" class="goto">
+        <a href="https://github.com/willianalvesdev" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Abrir perfil no GitHub">
+            <img src="assets/Icons/Goto.svg" class="goto" alt="">
+        </a>
         </div>
 
         <div class="contact-container">
             <img src="assets/Social Media/X.svg" class="contact-icon">
         <div class="contact-container-right">
             <p class="contact-title"> X(Twitter) </p>
-            <p class="contact-username"> @adsadasdasdadasddas </p>
+            <p class="contact-username"> @willianalvesdev </p>
         </div>
-        <img src="assets/Icons/Goto.svg" class="goto">
+        <a href="https://x.com/willianalvesdev" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Abrir perfil no X">
+            <img src="assets/Icons/Goto.svg" class="goto" alt="">
+        </a>
         </div>
 
         <div class="contact-container">
             <img src="assets/Social Media/Discord.svg" class="contact-icon">
         <div class="contact-container-right">
             <p class="contact-title"> Discord </p>
-            <p class="contact-username"> @adsadasdasdadasddas </p>
+            <p class="contact-username"> @willianalvesdev </p>
         </div>
-        <img src="assets/Icons/Goto.svg" class="goto">
+        <a href="https://discord.com/users/717218083801923654" class="contact-link" target="_blank" rel="noopener noreferrer" aria-label="Abrir perfil no Discord">
+            <img src="assets/Icons/Goto.svg" class="goto" alt="">
+        </a>
         </div>
     </div>
 
@@ -204,12 +223,12 @@
 
     <footer>
         <div class="footer-section">
-            <p class="footer-text">Site feito completamente por mim, Willian Alves. Código fonte disponível no <span>GitHub</span>.</p>
+            <p class="footer-text">Site feito completamente por mim, Willian Alves. Código fonte disponível no <a href="https://github.com/willianalvesdev/Meu-Portfolio">GitHub</a>.</p>
         </div>
 
         <div class="footer-container">
             <div class="footer-elements">
-                <p> llms.txt </p>
+                <a href="llms.txt" target="_blank" rel="noopener noreferrer">llms.txt</a>
             </div>
             <img src="assets/logos/WA.svg" class="logo-footer">
             <div class="footer-elements">

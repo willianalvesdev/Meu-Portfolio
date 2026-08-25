@@ -1,27 +1,34 @@
 # Willian Alves
 
-> Desenvolvedor Fullstack baseado em Monte Mor, São Paulo, Brasil.
+> Portfólio pessoal de Willian Alves, desenvolvedor de software baseado em Monte Mor, São Paulo, Brasil.
 
-Site pessoal e portfólio de Willian Alves, desenvolvedor fullstack. Contém informações de contato, stack de tecnologias, sobre mim e identidade visual.
+Willian atua como desenvolvedor Fullstack, Frontend, Backend e Mobile. O site reúne seu perfil profissional, formas de contato, tecnologias utilizadas e identidade visual.
 
-## Sobre
+## Perfil
 
 - Nome: Willian Alves
-- Cargo: Desenvolvedor Fullstack
+- Atuação: Desenvolvimento Fullstack, Frontend, Backend e Mobile
 - Localização: Monte Mor, São Paulo, Brasil
 - Site: https://willianalvesdev.com
+- Idioma principal: Português do Brasil
 
-## Stack
+## Tecnologias
 
-HTML, CSS, JavaScript, Tailwind, PHP, MySQL, Figma, C++, C#, Lua, Kodular, Tinkercad, Git
+- Web: HTML, CSS, JavaScript, Tailwind e PHP
+- Banco de dados: MySQL
+- Linguagens adicionais: C++, C#, Lua
+- Ferramentas e plataformas: Git, Figma, Kodular e Tinkercad
+- Inteligência artificial: ChatGPT e Claude
 
-## Contato
+## Perfis e contato
 
-- LinkedIn: https://linkedin.com/in/seu-usuario
-- GitHub: https://github.com/seu-usuario
-- X (Twitter): https://x.com/seu-usuario
-- Discord: seu-usuario
+- [LinkedIn](https://www.linkedin.com/in/willian-alves-do-nascimento-913721343): perfil profissional
+- [GitHub](https://github.com/willianalvesdev): projetos e código
+- [X (Twitter)](https://x.com/willianalvesdev): perfil social
+- [Discord](https://discord.com/users/717218083801923654): perfil no Discord
 
-## Páginas
+## Recursos
 
-- [Home](https://willianalvesdev.com/): Perfil, sobre mim, stack e contato
+- [Página inicial](https://willianalvesdev.com/): perfil, informações, contatos, stack e identidade visual
+- [Código-fonte do portfólio](https://github.com/willianalvesdev/Meu-Portfolio): repositório público do site
+- [llms.txt](https://willianalvesdev.com/llms.txt): versão legível por modelos de linguagem
