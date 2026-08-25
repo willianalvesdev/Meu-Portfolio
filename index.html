@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="description" content="Portfólio de Willian Alves, desenvolvedor Fullstack. Conheça seus projetos, habilidades, tecnologias e formas de contato.">
+    <script>
+        try {
+            document.documentElement.dataset.theme = localStorage.getItem("theme") || "dark";
+        } catch {
+            document.documentElement.dataset.theme = "dark";
+        }
+    </script>
     <link rel="stylesheet" href="css/style.css">
     <meta name="theme-color" content="#0A0A0A">
     <meta name="format-detection" content="telephone=no">
@@ -34,9 +41,18 @@
     <header>
         <img src="assets/logos/WA.svg" alt="WA" class="logo-header">
 
-        <a href="https://github.com/willianalvesdev/Meu-Portfolio" class="github-link">
-            <img src="assets/Icons/GitHub.svg" class="github-header" alt="GitHub">
-        </a>
+        <div class="header-actions">
+            <a href="https://github.com/willianalvesdev/Meu-Portfolio" class="github-link" aria-label="Abrir código do portfólio no GitHub">
+                <img src="assets/Icons/GitHub.svg" class="github-header" alt="">
+            </a>
+
+            <span class="header-divider" aria-hidden="true">|</span>
+
+            <button id="themeToggle" class="theme-toggle" type="button" aria-label="Ativar tema claro" aria-pressed="false">
+                <img src="assets/Icons/Sun.svg" class="theme-icon theme-icon-sun" alt="">
+                <img src="assets/Icons/Moon.svg" class="theme-icon theme-icon-moon" alt="">
+            </button>
+        </div>
 
     </header>
 
@@ -59,7 +75,7 @@
         <div class="space texture"></div>
 
     <div class="name-container">
-        <div class="name"> Willian <br> Alves </div>
+        <div class="name"> Willian Alves <br> do Nascimento </div>
     </div>
 
     <div class="bio-container">
@@ -79,7 +95,9 @@
             <div class="icon-frame">
                 <img src="assets/Icons/Location.svg" class="info-icon">
             </div>
-            <p class="info-text"> Monte Mor, São Paulo </p>
+            <p class="info-text">
+                <a href="https://www.google.com/maps/search/?api=1&amp;query=Monte+Mor%2C+S%C3%A3o+Paulo" class="info-link" target="_blank" rel="noopener noreferrer">Monte Mor, São Paulo</a>
+            </p>
         </div>
         <div class="info-container">
             <div class="icon-frame">
@@ -94,7 +112,10 @@
             <div class="icon-frame">
                 <img src="assets/Icons/Phone.svg" class="info-icon">
             </div>
-            <p class="info-text"> +55 (19) 99154-3993 <span>// Brazil </span></p>
+            <p class="info-text">
+                <a href="willian-alves.vcf" class="info-link" download aria-label="Adicionar telefone de Willian Alves aos contatos">+55 (19) 99154-3993</a>
+                <span>// Brasil </span>
+            </p>
         </div>
         <div class="info-container">
             <div class="icon-frame">
@@ -106,7 +127,9 @@
             <div class="icon-frame">
                 <img src="assets/Icons/Site.svg" class="info-icon">
             </div>
-            <p class="info-text"> WillianAlvesDev.com </p>
+            <p class="info-text">
+                <a href="https://willianalvesdev.com/" class="info-link" target="_blank" rel="noopener noreferrer">WillianAlvesDev.com</a>
+            </p>
         </div>
 
     </div>
@@ -165,12 +188,68 @@
     <div class="about-section">
         <div class="about-container">
             <ul class="about-list">
-                <li>Primeirasssssssssssssssssssssssssssssssssaaaaaaaaaao item</li> <br>
-                <li>Segundo item</li> <br>
-                <li>Terceiro item</li>
+                <li>
+                    Olá, me chamo <span>Willian</span>. Sou estudante e desenvolvo sites e aplicativos, unindo o aprendizado
+                    teórico com a prática constante.
+                </li>
+
+                <br>
+
+                <li>
+                    Descobri a paixão pela programação <span>aos 13 anos</span>, quando comecei a criar meus
+                    primeiros códigos. O que era um interesse pessoal virou o foco principal dos meus estudos.
+                </li>
+
+                <br>
+
+                <li>
+                    Atualmente, dedico meu tempo à <span>construção de aplicações</span>, aprimorando conceitos
+                    de lógica, arquitetura de código e design de interface em cada projeto.
+                </li>
+
               </ul>
         </div>
     </div>
+
+    <div class="spacebig texture complete"></div>
+
+    <section class="github-activity-section" aria-label="Frequência no GitHub">
+        <div class="github-calendar" id="githubCalendar" data-username="willianalvesdev">
+            <div class="github-calendar-scroll" id="githubCalendarScroll">
+                <div class="github-calendar-content" id="githubCalendarContent">
+                    <div class="github-months" id="githubMonths" aria-hidden="true"></div>
+                    <div class="github-grid" id="githubGrid" role="img" aria-label="Carregando calendário de contribuições"></div>
+                </div>
+            </div>
+
+            <div class="github-calendar-footer">
+                <p class="github-calendar-summary">
+                    <span id="githubContributionTotal" aria-live="polite">Carregando contribuições...</span>
+                    <a href="https://github.com/willianalvesdev" target="_blank" rel="noopener noreferrer">GitHub</a>
+                </p>
+
+                <div class="github-legend" aria-label="Intensidade das contribuições">
+                    <span>Menos</span>
+                    <span class="contribution-day" data-level="0"></span>
+                    <span class="contribution-day" data-level="1"></span>
+                    <span class="contribution-day" data-level="2"></span>
+                    <span class="contribution-day" data-level="3"></span>
+                    <span class="contribution-day" data-level="4"></span>
+                    <span>Mais</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="spacebig texture complete"></div>
+
+    <h1 class="title github-projects-title" id="github-projects-title">Projetos <span id="githubProjectsCount">(...)</span></h1>
+
+    <section class="github-projects-section" aria-labelledby="github-projects-title">
+        <div class="github-projects-list" id="githubProjectsList" data-username="willianalvesdev" aria-busy="true">
+            <p class="github-projects-status">Carregando projetos do GitHub...</p>
+        </div>
+    </section>
 
     <div class="spacebig texture complete"></div>
 
@@ -228,7 +307,7 @@
 
         <div class="footer-container">
             <div class="footer-elements">
-                <a href="llms.txt" target="_blank" rel="noopener noreferrer">llms.txt</a>
+                <a href="llms.txt" class="info-link" target="_blank" rel="noopener noreferrer">llms.txt</a>
             </div>
             <img src="assets/logos/WA.svg" class="logo-footer">
             <div class="footer-elements">

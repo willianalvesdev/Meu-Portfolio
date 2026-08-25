@@ -29,6 +29,6 @@ Willian atua como desenvolvedor Fullstack, Frontend, Backend e Mobile. O site re
 
 ## Recursos
 
-- [Página inicial](https://willianalvesdev.com/): perfil, informações, contatos, stack e identidade visual
+- [Página inicial](https://willianalvesdev.com/): perfil, informações, contatos, frequência de contribuições, projetos públicos do GitHub, stack e identidade visual
 - [Código-fonte do portfólio](https://github.com/willianalvesdev/Meu-Portfolio): repositório público do site
 - [llms.txt](https://willianalvesdev.com/llms.txt): versão legível por modelos de linguagem

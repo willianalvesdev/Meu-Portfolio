@@ -4,7 +4,15 @@
     --accent: #373737;
     --text: #ffffff;
     --secondary-text: #969696;
-    --border: #191919;
+    --border: #181818;
+    --icon-bg: #282828;
+    --scrollbar: #ffffff;
+    --svg-invert: 0;
+    --contribution-0: #161b22;
+    --contribution-1: #0e4429;
+    --contribution-2: #006d32;
+    --contribution-3: #26a641;
+    --contribution-4: #39d353;
     --spacing: 15px;
     --left: 30px;
     --right: 15px;
@@ -12,6 +20,28 @@
 
     --ibmmono: "IBM Plex Mono", monospace;
     --ibmsans: "IBM Plex Sans", sans-serif;
+
+    color-scheme: dark;
+
+}
+
+:root[data-theme="light"] {
+
+    --bg: #ffffff;
+    --accent: #cdcdcd;
+    --text: #000000;
+    --secondary-text: #626262;
+    --border: #dddddd;
+    --icon-bg: #e5e5e5;
+    --scrollbar: #000000;
+    --svg-invert: 1;
+    --contribution-0: #ebedf0;
+    --contribution-1: #9be9a8;
+    --contribution-2: #40c463;
+    --contribution-3: #30a14e;
+    --contribution-4: #216e39;
+
+    color-scheme: light;
 
 }
 
@@ -25,7 +55,7 @@
 }
   
 ::-webkit-scrollbar-thumb {
-    background: #ffffff; 
+    background: var(--scrollbar);
     border-radius: 2px;
 }
 
@@ -49,6 +79,7 @@ body {
     font-family: var(--ibmmono);
     font-weight: 400;
     font-size: 0.9rem;
+    transition: background-color 0.25s ease, color 0.25s ease;
 
 }
 
@@ -95,13 +126,15 @@ header {
     position: fixed;
     background: var(--bg);
     height: 50px;
-    width: calc(100% - 40px);
+    width: 100%;
+    box-sizing: border-box;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
-    padding: 0 20px 0 20px;
+    padding: 0 30px;
     overflow: hidden;
+    transition: background-color 0.25s ease, border-color 0.25s ease;
     z-index: 5;
 
 }
@@ -110,7 +143,7 @@ header {
     height: 35px;
     opacity: 0;
     transform: translateY(10px);
-    filter: blur(3px);
+    filter: invert(var(--svg-invert)) blur(3px);
     transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
     will-change: opacity, transform, filter;
     pointer-events: none;
@@ -119,18 +152,94 @@ header {
 .logo-header.visivel {
     opacity: 1;
     transform: translateY(0);
-    filter: blur(0);
+    filter: invert(var(--svg-invert)) blur(0);
     pointer-events: auto;
+}
+
+.header-actions {
+
+    margin-left: auto;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 14px;
 }
 
 .github-link {
 
-    margin-left: auto;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .github-header {
 
     height: 20px;
+    filter: invert(var(--svg-invert));
+    transition: filter 0.25s ease;
+
+}
+
+.theme-toggle {
+
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: color 0.25s ease;
+}
+
+.header-divider {
+
+    color: var(--secondary-text);
+    opacity: 0.6;
+    user-select: none;
+}
+
+.theme-toggle:focus-visible {
+
+    outline: 2px solid var(--text);
+    outline-offset: 2px;
+}
+
+.theme-icon {
+
+    width: 18px;
+    height: 18px;
+    grid-area: 1 / 1;
+    filter: invert(var(--svg-invert));
+    transition: opacity 0.25s ease, transform 0.25s ease, filter 0.25s ease;
+}
+
+.theme-icon-sun {
+
+    opacity: 0;
+    transform: rotate(90deg) scale(0.7);
+}
+
+.theme-icon-moon {
+
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+:root[data-theme="light"] .theme-icon-sun {
+
+    opacity: 1;
+    transform: rotate(0) scale(1);
+}
+
+:root[data-theme="light"] .theme-icon-moon {
+
+    opacity: 0;
+    transform: rotate(-90deg) scale(0.7);
 
 }
 
@@ -225,7 +334,7 @@ header {
 
     font-family: var(--ibmsans);
     font-weight: 600;
-    font-size: 2rem;
+    font-size: 1.8rem;
     padding-left: var(--spacing);
 }
 
@@ -309,7 +418,7 @@ header {
     border: solid 1px var(--accent);
     outline: 1px solid var(--border);
     outline-offset: 2px;
-    background: #282828;
+    background: var(--icon-bg);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -335,6 +444,26 @@ header {
 
 }
 
+.info-link {
+
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+}
+
+.info-link:visited {
+
+    color: inherit;
+}
+
+@media (hover: hover) and (pointer: fine) {
+    .info-link:hover {
+        color: var(--secondary-text);
+    }
+}
+
 .contact-section {
 
     padding-top: var(--top);
@@ -358,7 +487,6 @@ header {
 .contact-icon {
 
     height: 50px;
-    border: 1px solid var(--accent);
     border-radius: 25%;
     outline: 1px solid var(--border);
     outline-offset: 2px;
@@ -440,6 +568,303 @@ header {
 
 }
 
+.about-list li span {
+
+    font-weight: 600;
+
+}
+
+.github-activity-section {
+
+    padding: var(--top) var(--left);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.github-calendar {
+
+    --cell-size: 12px;
+    --cell-gap: 4px;
+    padding: var(--top);
+    border: 1px solid var(--border);
+    background: var(--bg);
+    transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.github-calendar-scroll {
+
+    overflow-x: auto;
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+}
+
+.github-calendar-content {
+
+    width: max-content;
+    min-width: 100%;
+}
+
+.github-months {
+
+    display: grid;
+    grid-template-columns: repeat(var(--github-weeks, 53), var(--cell-size));
+    column-gap: var(--cell-gap);
+    height: 24px;
+    color: var(--secondary-text);
+}
+
+.github-month-label {
+
+    white-space: nowrap;
+}
+
+.github-grid {
+
+    display: grid;
+    grid-template-rows: repeat(7, var(--cell-size));
+    grid-auto-flow: column;
+    grid-auto-columns: var(--cell-size);
+    gap: var(--cell-gap);
+    min-height: calc((var(--cell-size) * 7) + (var(--cell-gap) * 6));
+}
+
+.contribution-day {
+
+    width: var(--cell-size);
+    height: var(--cell-size);
+    border-radius: 2px;
+    background: var(--contribution-0);
+    outline: 1px solid var(--border);
+    outline-offset: -1px;
+}
+
+.contribution-day[data-level="1"] {
+    background: var(--contribution-1);
+}
+
+.contribution-day[data-level="2"] {
+    background: var(--contribution-2);
+}
+
+.contribution-day[data-level="3"] {
+    background: var(--contribution-3);
+}
+
+.contribution-day[data-level="4"] {
+    background: var(--contribution-4);
+}
+
+.github-calendar-footer {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--top);
+    padding-top: 4px;
+    color: var(--secondary-text);
+}
+
+.github-calendar-summary a {
+
+    color: var(--text);
+    font-weight: 500;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.github-legend {
+
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.github-legend .contribution-day {
+
+    display: inline-block;
+}
+
+@media (max-width: 620px) {
+    .github-activity-section {
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+
+    .github-calendar {
+        --cell-size: 11px;
+        --cell-gap: 3px;
+        padding: var(--spacing);
+    }
+
+    .github-calendar-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .github-legend {
+        align-self: flex-end;
+    }
+}
+
+.github-projects-section {
+
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+}
+
+.github-projects-title span {
+
+    color: var(--secondary-text);
+    font-family: var(--ibmmono);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.github-projects-status {
+
+    padding: var(--left);
+    color: var(--secondary-text);
+}
+
+.github-project {
+
+    border-bottom: 1px solid var(--border);
+}
+
+.github-project:last-child {
+
+    border-bottom: none;
+}
+
+.github-project-row {
+
+    min-height: 80px;
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    align-items: center;
+    gap: var(--right);
+    padding: 0 var(--left);
+}
+
+.github-project-info {
+
+    min-width: 0;
+}
+
+.github-project-name {
+
+    font-family: var(--ibmsans);
+    font-size: 1rem;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
+
+.github-project-meta {
+
+    padding-top: 3px;
+    color: var(--secondary-text);
+}
+
+.github-project-toggle {
+
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    color: var(--secondary-text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.github-project-toggle {
+
+    transition: color 0.2s ease;
+}
+
+.github-project-expand-icon {
+
+    width: 18px;
+    height: 18px;
+    filter: invert(var(--svg-invert));
+    opacity: 0.7;
+    transition: transform 0.3s ease, filter 0.25s ease, opacity 0.2s ease;
+}
+
+.github-project.aberto .github-project-expand-icon {
+
+    opacity: 1;
+    transform: rotate(180deg);
+}
+
+.github-project-toggle:focus-visible {
+
+    outline: 1px solid var(--text);
+    outline-offset: -4px;
+}
+
+.github-project-details {
+
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    border-top: 1px solid transparent;
+    transition: grid-template-rows 0.35s ease, opacity 0.25s ease, border-color 0.35s ease;
+}
+
+.github-project.aberto .github-project-details {
+
+    grid-template-rows: 1fr;
+    opacity: 1;
+    border-color: var(--border);
+}
+
+.github-project-details-content {
+
+    min-height: 0;
+    overflow: hidden;
+}
+
+.github-project-details-inner {
+
+    padding: var(--top) var(--left);
+}
+
+.github-project-description {
+
+    line-height: 1.7;
+}
+
+.github-project-tags {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: var(--top);
+}
+
+.github-project-tag {
+
+    padding: 4px 8px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--icon-bg);
+    color: var(--secondary-text);
+    font-size: 0.8rem;
+}
+
+@media (max-width: 520px) {
+    .github-project-row {
+        grid-template-columns: 34px minmax(0, 1fr) 30px;
+        gap: 8px;
+        padding: 0 var(--left);
+    }
+
+}
+
 .brand-section {
 
     display: flex;
@@ -488,6 +913,7 @@ header {
 .logo-brand-one {
 
     height: 40px;
+
 }
 
 .logo-brand-two {
@@ -552,6 +978,19 @@ header {
 .stack-logo {
 
     width: 40px;
+}
+
+.top-section > img,
+.logo-brand-one,
+.logo-brand-two,
+.logo-footer,
+.stack-logo[src$="chatgpt.svg"],
+.info-icon,
+.goto,
+#btnTopo img {
+
+    filter: invert(var(--svg-invert));
+    transition: filter 0.25s ease;
 }
 
 footer {
