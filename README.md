@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://willianalvesdev.com/">Acessar o portfólio</a>
+  <a href="https://willianalvesdev.github.io/Meu-Portfolio/">Acessar o portfólio</a>
 </p>
 
 <p align="center">

@@ -95,20 +95,18 @@ body::after {
     width: 1px;
     background: var(--border);
     pointer-events: none;
-    z-index: 9999;
+    z-index: 10;
 }
 
 body::before {
 
     left: var(--page-gutter);
-    z-index: 10;
 
 }
 
 body::after {
 
     right: var(--page-gutter);
-    z-index: 10;
 
 }
 
@@ -149,14 +147,12 @@ header {
     filter: invert(var(--svg-invert)) blur(3px);
     transition: opacity 0.35s ease, transform 0.35s ease, filter 0.35s ease;
     will-change: opacity, transform, filter;
-    pointer-events: none;
 }
 
 .logo-header.visivel {
     opacity: 1;
     transform: translateY(0);
     filter: invert(var(--svg-invert)) blur(0);
-    pointer-events: auto;
 }
 
 .header-actions {
@@ -201,7 +197,7 @@ header {
 
 .header-divider {
 
-    color: var(--secondary-text);
+    color: var(--border);
     opacity: 0.6;
     user-select: none;
 }
@@ -294,7 +290,6 @@ header {
 
 .profile {
 
-    margin-left: 10px;
     height: auto;
     flex: 0 0 140px;
     border-right: 1px solid var(--border);
@@ -400,6 +395,29 @@ header {
     transition: none;
 }
 
+.scroll-word {
+
+    display: inline-block;
+    max-width: 100%;
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(3px);
+    overflow-wrap: anywhere;
+    transition:
+        opacity 0.45s ease,
+        transform 0.45s ease,
+        filter 0.45s ease;
+    transition-delay: calc(var(--word-index) * 40ms);
+    will-change: opacity, transform, filter;
+}
+
+.texto-animado.texto-visivel .scroll-word {
+
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+}
+
 .spacebig {
 
     width: 100%;
@@ -458,11 +476,13 @@ header {
 
 .info-text {
 
+    min-width: 0;
+    flex: 1;
     padding-left: var(--right);
     
 }
 
-.info-text span {
+.info-text > span {
     
     color: var(--secondary-text);
 
@@ -471,15 +491,71 @@ header {
 .info-link {
 
     color: inherit;
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-underline-offset: 3px;
+    text-decoration: none;
+    padding-bottom: 2px;
+}
+
+.info-link:not(.info-email-link) {
+
     transition: color 0.2s ease;
+}
+
+.sublinhado-animado {
+
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.sublinhado-animado::after {
+
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.4s ease;
+}
+
+.sublinhado-animado.sublinhado-visivel::after {
+
+    transform: scaleX(1);
 }
 
 .info-link:visited {
 
     color: inherit;
+}
+
+.info-email-link {
+
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+    vertical-align: bottom;
+}
+
+.info-email-link .scroll-word {
+
+    max-width: none;
+    white-space: nowrap;
+    overflow-wrap: normal;
+}
+
+.email-ellipsis,
+.info-email-link .email-segment-hidden {
+
+    display: none;
+}
+
+.info-email-link.email-truncated .email-ellipsis {
+
+    display: inline-block;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -604,17 +680,35 @@ header {
 
 .about-list {
 
-    padding-left: 20px;
+    padding-left: 0;
+    list-style: none;
 
 }
 
 .about-list li {
 
+    position: relative;
+    padding-left: 20px;
     word-break: break-word;
 
 }
 
-.about-list li span {
+.about-list li + li {
+
+    margin-top: var(--top);
+}
+
+.about-list li::before {
+
+    content: "•";
+    position: absolute;
+    top: 0;
+    left: -10px;
+    width: 20px;
+    text-align: center;
+}
+
+.about-list li > span:not(.scroll-word) {
 
     font-weight: 600;
 
@@ -714,8 +808,8 @@ header {
 
     color: var(--text);
     font-weight: 500;
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    text-decoration: none;
+    padding-bottom: 2px;
 }
 
 .github-legend {
@@ -760,7 +854,7 @@ header {
     border-bottom: 1px solid var(--border);
 }
 
-.github-projects-title span {
+.github-projects-title #githubProjectsCount {
 
     color: var(--secondary-text);
     font-family: var(--ibmmono);
@@ -819,16 +913,10 @@ header {
     height: 40px;
     border: none;
     background: transparent;
-    color: var(--secondary-text);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-}
-
-.github-project-toggle {
-
-    transition: color 0.2s ease;
 }
 
 .github-project-expand-icon {
@@ -948,6 +1036,13 @@ header {
     transform: rotate(270deg);
 }
 
+.brand-left-container .scroll-word {
+
+    max-width: none;
+    white-space: nowrap;
+    overflow-wrap: normal;
+}
+
 .brand-right-container {
 
     display: flex;
@@ -1000,13 +1095,11 @@ header {
     height: 22px;
   }
   
-  /* Aparece semi-transparente */
   #btnTopo.visivel {
     opacity: 0.5;
     pointer-events: auto;
   }
   
-  /* 100% opaco */
   #btnTopo.opaco {
     opacity: 1;
   }
@@ -1040,6 +1133,23 @@ header {
     transition: filter 0.25s ease;
 }
 
+.stack-section.stack-animada .stack-logo {
+
+    opacity: 0;
+    transform: scale(0.25);
+    transition:
+        opacity 0.5s ease var(--stack-delay),
+        transform 0.65s cubic-bezier(0.16, 1, 0.3, 1) var(--stack-delay),
+        filter 0.25s ease;
+    will-change: opacity, transform;
+}
+
+.stack-section.stack-animada.stack-visivel .stack-logo {
+
+    opacity: 1;
+    transform: scale(1);
+}
+
 footer {
 
     display: flex;
@@ -1062,7 +1172,8 @@ footer {
 .footer-section a {
 
     font-weight: 500;
-    text-decoration: underline 1px;
+    text-decoration: none;
+    padding-bottom: 2px;
 
 }
 

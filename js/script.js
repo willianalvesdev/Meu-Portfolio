@@ -15,6 +15,7 @@ const githubGrid = document.getElementById("githubGrid");
 const githubContributionTotal = document.getElementById("githubContributionTotal");
 const githubProjectsList = document.getElementById("githubProjectsList");
 const githubProjectsCount = document.getElementById("githubProjectsCount");
+const stackSection = document.querySelector(".stack-section");
 
 audioInterruptor.preload = "auto";
 
@@ -45,12 +46,321 @@ const formatadorHorarioBrasilia = new Intl.DateTimeFormat("pt-BR", {
   hour12: false
 });
 
+const seletorTextosAnimados = [
+  ".info-text",
+  ".contact-title",
+  ".contact-username",
+  ".title",
+  ".about-list li",
+  ".github-project-name",
+  ".github-project-meta",
+  ".github-project-description",
+  ".github-project-tag",
+  ".github-projects-status",
+  ".brand-container",
+  ".footer-text",
+  ".footer-elements"
+].join(",");
+
+const inicioAnimacoesTexto = performance.now();
+const delayInicialTextos = 200;
+const seletorSublinhadosAnimados = ".info-link, .github-calendar-summary a, .footer-section a";
+
+function revelarTexto(elemento) {
+  const tempoRestante = Math.max(0, delayInicialTextos - (performance.now() - inicioAnimacoesTexto));
+
+  window.setTimeout(() => {
+    elemento.classList.add("texto-visivel");
+  }, tempoRestante);
+}
+
+function revelarSublinhado(link) {
+  const palavrasDoLink = [
+    ...(link.matches(".scroll-word") ? [link] : []),
+    ...link.querySelectorAll(".scroll-word")
+  ].filter((palavra) => getComputedStyle(palavra).display !== "none");
+  const indicesPalavras = palavrasDoLink
+    .map((palavra) => Number(palavra.style.getPropertyValue("--word-index")) || 0);
+  const ultimoIndice = indicesPalavras.length > 0 ? Math.max(...indicesPalavras) : -1;
+  const fimDaAnimacaoTexto = ultimoIndice >= 0 ? (ultimoIndice * 40) + 450 : 120;
+  const delayInicialRestante = Math.max(0, delayInicialTextos - (performance.now() - inicioAnimacoesTexto));
+
+  window.setTimeout(() => {
+    link.classList.add("sublinhado-visivel");
+  }, delayInicialRestante + fimDaAnimacaoTexto);
+}
+
+const observadorTextos = "IntersectionObserver" in window
+  ? new IntersectionObserver((entradas, observador) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;
+
+        revelarTexto(entrada.target);
+        observador.unobserve(entrada.target);
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: "0px 0px 2% 0px"
+    })
+  : null;
+
+const observadorSublinhados = "IntersectionObserver" in window
+  ? new IntersectionObserver((entradas, observador) => {
+      entradas.forEach((entrada) => {
+        if (!entrada.isIntersecting) return;
+
+        revelarSublinhado(entrada.target);
+        observador.unobserve(entrada.target);
+      });
+    }, {
+      threshold: 0.05,
+      rootMargin: "0px 0px 2% 0px"
+    })
+  : null;
+
+function ajustarTruncamentoEmail(link) {
+  const segmentos = [...link.querySelectorAll(".email-segment")];
+  const reticencias = link.querySelector(".email-ellipsis");
+  const container = link.parentElement;
+
+  if (!reticencias || !container) return;
+
+  link.classList.remove("email-truncated");
+  link.style.width = "";
+  segmentos.forEach((segmento) => segmento.classList.remove("email-segment-hidden"));
+
+  const estiloContainer = getComputedStyle(container);
+  const larguraDisponivel = container.clientWidth
+    - parseFloat(estiloContainer.paddingLeft)
+    - parseFloat(estiloContainer.paddingRight);
+  const larguraCompleta = segmentos.reduce((total, segmento) => total + segmento.offsetWidth, 0);
+
+  if (larguraCompleta <= larguraDisponivel) return;
+
+  link.classList.add("email-truncated");
+
+  const larguraReticencias = reticencias.offsetWidth;
+  const limiteSegmentos = Math.max(0, larguraDisponivel - larguraReticencias);
+  let larguraUsada = 0;
+  let ultimoIndiceVisivel = -1;
+  let limiteAtingido = false;
+
+  segmentos.forEach((segmento, indice) => {
+    const larguraSegmento = segmento.offsetWidth;
+
+    if (!limiteAtingido && larguraUsada + larguraSegmento <= limiteSegmentos) {
+      larguraUsada += larguraSegmento;
+      ultimoIndiceVisivel = indice;
+      return;
+    }
+
+    limiteAtingido = true;
+    segmento.classList.add("email-segment-hidden");
+  });
+
+  reticencias.style.setProperty("--word-index", String(ultimoIndiceVisivel + 1));
+  link.style.width = `${Math.min(larguraDisponivel, larguraUsada + larguraReticencias)}px`;
+}
+
+function prepararTextoAnimado(elemento) {
+  if (
+    !(elemento instanceof HTMLElement)
+    || elemento.dataset.textoAnimado === "true"
+  ) return;
+
+  const linkEmail = elemento.querySelector(".info-email-link");
+
+  if (linkEmail) {
+    const partesEmail = ["willian", ".", "alves", ".", "nascimento", "2008", "@", "gmail", ".", "com"];
+    const fragmentoEmail = document.createDocumentFragment();
+
+    partesEmail.forEach((parte, indice) => {
+      const segmento = document.createElement("span");
+      segmento.className = "scroll-word email-segment";
+      segmento.style.setProperty("--word-index", String(indice));
+      segmento.textContent = parte;
+      fragmentoEmail.appendChild(segmento);
+    });
+
+    const reticencias = document.createElement("span");
+    reticencias.className = "scroll-word email-ellipsis";
+    reticencias.style.setProperty("--word-index", String(partesEmail.length));
+    reticencias.textContent = "...";
+    fragmentoEmail.appendChild(reticencias);
+
+    linkEmail.replaceChildren(fragmentoEmail);
+    ajustarTruncamentoEmail(linkEmail);
+    window.addEventListener("resize", () => ajustarTruncamentoEmail(linkEmail));
+    document.fonts?.ready.then(() => ajustarTruncamentoEmail(linkEmail));
+    elemento.dataset.textoAnimado = "true";
+    elemento.classList.add("texto-animado");
+
+    if (observadorTextos) {
+      observadorTextos.observe(elemento);
+    } else {
+      revelarTexto(elemento);
+    }
+
+    return;
+  }
+
+  const nosDeTexto = [];
+  const caminhador = document.createTreeWalker(elemento, NodeFilter.SHOW_TEXT, {
+    acceptNode(no) {
+      if (!no.textContent.trim()) return NodeFilter.FILTER_REJECT;
+
+      const pai = no.parentElement;
+      if (!pai || pai.closest(".bio-text, time, [aria-hidden='true'], .scroll-word")) {
+        return NodeFilter.FILTER_REJECT;
+      }
+
+      return NodeFilter.FILTER_ACCEPT;
+    }
+  });
+
+  while (caminhador.nextNode()) nosDeTexto.push(caminhador.currentNode);
+  if (nosDeTexto.length === 0) return;
+
+  elemento.dataset.textoAnimado = "true";
+  elemento.classList.add("texto-animado");
+
+  let indicePalavra = 0;
+
+  nosDeTexto.forEach((no) => {
+    const fragmento = document.createDocumentFragment();
+
+    no.textContent.split(/(\s+)/).forEach((parte) => {
+      if (!parte) return;
+
+      if (/^\s+$/.test(parte)) {
+        fragmento.appendChild(document.createTextNode(parte));
+        return;
+      }
+
+      const palavra = document.createElement("span");
+      palavra.className = "scroll-word";
+      palavra.style.setProperty("--word-index", String(indicePalavra));
+      palavra.textContent = parte;
+      fragmento.appendChild(palavra);
+      indicePalavra += 1;
+    });
+
+    no.replaceWith(fragmento);
+  });
+
+  if (observadorTextos) {
+    observadorTextos.observe(elemento);
+  } else {
+    revelarTexto(elemento);
+  }
+}
+
+function prepararTextosAnimados(raiz = document) {
+  if (raiz instanceof HTMLElement && raiz.matches(seletorTextosAnimados)) {
+    prepararTextoAnimado(raiz);
+  }
+
+  raiz.querySelectorAll?.(seletorTextosAnimados).forEach(prepararTextoAnimado);
+}
+
+function prepararSublinhadosAnimados(raiz = document) {
+  raiz.querySelectorAll?.(seletorSublinhadosAnimados).forEach((link) => {
+    if (link.classList.contains("sublinhado-animado")) return;
+
+    link.classList.add("sublinhado-animado");
+
+    if (observadorSublinhados) {
+      observadorSublinhados.observe(link);
+    } else {
+      revelarSublinhado(link);
+    }
+  });
+}
+
+function prepararAnimacaoStack() {
+  if (!stackSection) return;
+
+  const logos = stackSection.querySelectorAll(".stack-logo");
+  logos.forEach((logo, indice) => {
+    logo.style.setProperty("--stack-delay", `${indice * 65}ms`);
+  });
+
+  stackSection.classList.add("stack-animada");
+
+  if (!("IntersectionObserver" in window)) {
+    stackSection.classList.add("stack-visivel");
+    return;
+  }
+
+  const observadorStack = new IntersectionObserver((entradas, observador) => {
+    entradas.forEach((entrada) => {
+      if (!entrada.isIntersecting) return;
+
+      entrada.target.classList.add("stack-visivel");
+      observador.unobserve(entrada.target);
+    });
+  }, {
+    threshold: 0.05,
+    rootMargin: "0px 0px 2% 0px"
+  });
+
+  observadorStack.observe(stackSection);
+}
+
 function atualizarHorarioBrasilia() {
   if (!horarioBrasilia) return;
 
   const agora = new Date();
   horarioBrasilia.textContent = formatadorHorarioBrasilia.format(agora);
   horarioBrasilia.dateTime = agora.toISOString();
+}
+
+function obterMinutosHorarioBrasilia(data) {
+  const partes = formatadorHorarioBrasilia.formatToParts(data);
+  const hora = Number(partes.find((parte) => parte.type === "hour")?.value || 0) % 24;
+  const minuto = Number(partes.find((parte) => parte.type === "minute")?.value || 0);
+
+  return (hora * 60) + minuto;
+}
+
+function formatarTotalMinutos(totalMinutos) {
+  const hora = Math.floor(totalMinutos / 60) % 24;
+  const minuto = totalMinutos % 60;
+
+  return `${String(hora).padStart(2, "0")}:${String(minuto).padStart(2, "0")}`;
+}
+
+function animarHorarioBrasilia() {
+  if (!horarioBrasilia) return;
+
+  const agora = new Date();
+  const minutosAlvo = obterMinutosHorarioBrasilia(agora);
+  const duracao = 1800;
+
+  horarioBrasilia.textContent = "00:00";
+  horarioBrasilia.dateTime = agora.toISOString();
+
+  window.setTimeout(() => {
+    const inicio = performance.now();
+
+    function atualizarContagem(instante) {
+      const progresso = Math.min((instante - inicio) / duracao, 1);
+      const progressoSuave = 1 - Math.pow(1 - progresso, 3);
+      const minutosAtuais = Math.floor(minutosAlvo * progressoSuave);
+
+      horarioBrasilia.textContent = formatarTotalMinutos(minutosAtuais);
+
+      if (progresso < 1) {
+        requestAnimationFrame(atualizarContagem);
+        return;
+      }
+
+      atualizarHorarioBrasilia();
+      setInterval(atualizarHorarioBrasilia, 1000);
+    }
+
+    requestAnimationFrame(atualizarContagem);
+  }, delayInicialTextos);
 }
 
 function aplicarTema(tema, salvar = false) {
@@ -65,9 +375,7 @@ function aplicarTema(tema, salvar = false) {
 
   try {
     localStorage.setItem("theme", temaClaro ? "light" : "dark");
-  } catch {
-    // O tema continua funcionando mesmo se o armazenamento estiver indisponível.
-  }
+  } catch {}
 }
 
 function tocarSomInterruptor() {
@@ -256,6 +564,8 @@ function renderizarProjetosGitHub(repositorios) {
   githubProjectsCount.textContent = `(${projetos.length})`;
   githubProjectsList.replaceChildren(fragmento);
   githubProjectsList.setAttribute("aria-busy", "false");
+  prepararTextoAnimado(githubProjectsCount);
+  prepararTextosAnimados(githubProjectsList);
 }
 
 async function carregarProjetosGitHub() {
@@ -276,10 +586,14 @@ async function carregarProjetosGitHub() {
     githubProjectsList.replaceChildren(status);
     githubProjectsList.setAttribute("aria-busy", "false");
     githubProjectsCount.textContent = "";
+    prepararTextoAnimado(status);
   }
 }
 
 aplicarTema(document.documentElement.dataset.theme);
+prepararTextosAnimados();
+prepararSublinhadosAnimados();
+prepararAnimacaoStack();
 carregarContribuicoesGitHub();
 carregarProjetosGitHub();
 
@@ -354,8 +668,7 @@ btnTopo.addEventListener("click", () => {
 });
 
 checkLogoHeader();
-atualizarHorarioBrasilia();
-setInterval(atualizarHorarioBrasilia, 1000);
+animarHorarioBrasilia();
 
 if (bioText && titulosBio.length > 1) {
   let indiceTitulo = 0;

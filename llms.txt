@@ -9,7 +9,7 @@ Willian atua como desenvolvedor Fullstack, Frontend, Backend e Mobile. O site re
 - Nome: Willian Alves
 - Atuação: Desenvolvimento Fullstack, Frontend, Backend e Mobile
 - Localização: Monte Mor, São Paulo, Brasil
-- Site: https://willianalvesdev.com
+- Site: https://willianalvesdev.github.io/Meu-Portfolio/
 - Idioma principal: Português do Brasil
 
 ## Tecnologias
@@ -29,6 +29,6 @@ Willian atua como desenvolvedor Fullstack, Frontend, Backend e Mobile. O site re
 
 ## Recursos
 
-- [Página inicial](https://willianalvesdev.com/): perfil, informações, contatos, frequência de contribuições, projetos públicos do GitHub, stack e identidade visual
+- [Página inicial](https://willianalvesdev.github.io/Meu-Portfolio/): perfil, informações, contatos, frequência de contribuições, projetos públicos do GitHub, stack e identidade visual
 - [Código-fonte do portfólio](https://github.com/willianalvesdev/Meu-Portfolio): repositório público do site
-- [llms.txt](https://willianalvesdev.com/llms.txt): versão legível por modelos de linguagem
+- [llms.txt](https://willianalvesdev.github.io/Meu-Portfolio/llms.txt): versão legível por modelos de linguagem
