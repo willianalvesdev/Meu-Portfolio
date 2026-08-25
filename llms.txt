@@ -1,0 +1,27 @@
+# Willian Alves
+
+> Desenvolvedor Fullstack baseado em Monte Mor, São Paulo, Brasil.
+
+Site pessoal e portfólio de Willian Alves, desenvolvedor fullstack. Contém informações de contato, stack de tecnologias, sobre mim e identidade visual.
+
+## Sobre
+
+- Nome: Willian Alves
+- Cargo: Desenvolvedor Fullstack
+- Localização: Monte Mor, São Paulo, Brasil
+- Site: https://willianalvesdev.com
+
+## Stack
+
+HTML, CSS, JavaScript, Tailwind, PHP, MySQL, Figma, C++, C#, Lua, Kodular, Tinkercad, Git
+
+## Contato
+
+- LinkedIn: https://linkedin.com/in/seu-usuario
+- GitHub: https://github.com/seu-usuario
+- X (Twitter): https://x.com/seu-usuario
+- Discord: seu-usuario
+
+## Páginas
+
+- [Home](https://willianalvesdev.com/): Perfil, sobre mim, stack e contato
