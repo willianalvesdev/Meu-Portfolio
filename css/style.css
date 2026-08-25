@@ -17,6 +17,9 @@
     --left: 30px;
     --right: 15px;
     --top: 20px;
+    --content-max: 800px;
+    --content-inset: 20px;
+    --page-gutter: max(10px, calc((100vw - var(--content-max)) / 2));
 
     --ibmmono: "IBM Plex Mono", monospace;
     --ibmsans: "IBM Plex Sans", sans-serif;
@@ -97,14 +100,14 @@ body::after {
 
 body::before {
 
-    left: 10px;
+    left: var(--page-gutter);
     z-index: 10;
 
 }
 
 body::after {
 
-    right: 10px;
+    right: var(--page-gutter);
     z-index: 10;
 
 }
@@ -132,7 +135,7 @@ header {
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
-    padding: 0 30px;
+    padding: 0 calc(var(--page-gutter) + var(--content-inset));
     overflow: hidden;
     transition: background-color 0.25s ease, border-color 0.25s ease;
     z-index: 5;
@@ -247,25 +250,43 @@ header {
 
     padding-top: 50px;
     height: 200px;
-    width: calc(100% - 20px);
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid var(--border);
+    position: relative;
+    margin: 0;
+
+}
+
+.top-section::before {
+
+    content: "";
+    position: absolute;
+    inset: 50px var(--page-gutter) 0;
     background-image: radial-gradient(
         var(--border) 1px,
         transparent 1px
     );
-
     background-size: 8px 8px;
-    margin: 0 10px 0 10px;
-    
+    pointer-events: none;
+    z-index: 0;
+}
+
+.top-section > img {
+
+    position: relative;
+    z-index: 1;
+
 }
 
 .profile-section {
 
     width: 100%;
     height: 140px;
+    box-sizing: border-box;
+    padding: 0 var(--page-gutter);
     border-bottom: 1px solid var(--border);
     display: flex;
     
@@ -275,7 +296,7 @@ header {
 
     margin-left: 10px;
     height: auto;
-    width: 140px;
+    flex: 0 0 140px;
     border-right: 1px solid var(--border);
     display: flex;
     align-items: center;
@@ -308,7 +329,8 @@ header {
 
 .profile-right {
 
-    width: calc(100% - 130px);
+    min-width: 0;
+    flex: 1;
     display: flex;
     flex-direction: column;
 }
@@ -405,7 +427,9 @@ header {
 .info-container {
 
     display: flex;
-    padding-left: var(--left);
+    box-sizing: border-box;
+    padding-left: calc(var(--page-gutter) + var(--content-inset));
+    padding-right: calc(var(--page-gutter) + var(--content-inset));
     align-items: center;
 
 }
@@ -468,8 +492,10 @@ header {
 
     padding-top: var(--top);
     padding-bottom: var(--top);
-    display: flex;
-    flex-direction: column;
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--top);
 
 }
@@ -480,7 +506,9 @@ header {
     border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
-    padding: 13px 0 13px var(--left);
+    box-sizing: border-box;
+    min-width: 0;
+    padding: 13px var(--content-inset);
 
 }
 
@@ -496,7 +524,8 @@ header {
 .contact-container-right {
 
     font-family: var(--ibmsans);
-    width: 100%;
+    min-width: 0;
+    flex: 1;
     display: flex;
     flex-direction: column;
     padding-left: var(--right);
@@ -513,6 +542,7 @@ header {
 .contact-username {
 
     color: var(--secondary-text);
+    overflow-wrap: anywhere;
 
 }
 
@@ -521,7 +551,23 @@ header {
     align-self: stretch;
     display: flex;
     align-items: center;
-    padding: 0 var(--left) 0 var(--right);
+    padding: 0 0 0 var(--right);
+}
+
+@media (min-width: 761px) {
+    .contact-container:nth-child(odd) {
+        border-right: 1px solid var(--border);
+    }
+
+    .contact-container:nth-child(even) {
+        border-left: 1px solid var(--border);
+    }
+}
+
+@media (max-width: 760px) {
+    .contact-section {
+        grid-template-columns: 1fr;
+    }
 }
 
 .goto {
@@ -534,7 +580,7 @@ header {
     font-family: var(--ibmsans);
     font-weight: 600;
     font-size: 2rem;
-    padding-left: var(--left);
+    padding-left: calc(var(--page-gutter) + var(--content-inset));
 
 }
 
@@ -552,7 +598,7 @@ header {
 .about-container {
 
     display: flex;
-    padding: var(--left) var(--left) var(--top) var(--left);
+    padding: var(--left) calc(var(--page-gutter) + var(--content-inset)) var(--top);
     
 }
 
@@ -576,7 +622,7 @@ header {
 
 .github-activity-section {
 
-    padding: var(--top) var(--left);
+    padding: var(--top) calc(var(--page-gutter) + var(--content-inset));
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
 }
@@ -724,7 +770,7 @@ header {
 
 .github-projects-status {
 
-    padding: var(--left);
+    padding: var(--left) calc(var(--page-gutter) + var(--content-inset));
     color: var(--secondary-text);
 }
 
@@ -745,7 +791,7 @@ header {
     grid-template-columns: 40px minmax(0, 1fr) 40px;
     align-items: center;
     gap: var(--right);
-    padding: 0 var(--left);
+    padding: 0 calc(var(--page-gutter) + var(--content-inset));
 }
 
 .github-project-info {
@@ -830,7 +876,7 @@ header {
 
 .github-project-details-inner {
 
-    padding: var(--top) var(--left);
+    padding: var(--top) calc(var(--page-gutter) + var(--content-inset));
 }
 
 .github-project-description {
@@ -860,7 +906,7 @@ header {
     .github-project-row {
         grid-template-columns: 34px minmax(0, 1fr) 30px;
         gap: 8px;
-        padding: 0 var(--left);
+        padding: 0 calc(var(--page-gutter) + var(--content-inset));
     }
 
 }
@@ -879,8 +925,9 @@ header {
     flex-direction: row;
     height: 120px;
     border-top: 1px solid var(--border);
-    padding-left: 10px;
-    padding-right: 30px;
+    box-sizing: border-box;
+    padding-left: var(--page-gutter);
+    padding-right: calc(var(--page-gutter) + var(--content-inset));
 
 }
 
@@ -970,7 +1017,7 @@ header {
     align-items: center;
     flex-wrap: wrap; 
     gap: 10px;
-    padding: var(--top) var(--left) var(--top) var(--left);
+    padding: var(--top) calc(var(--page-gutter) + var(--content-inset));
     border-top: solid 1px var(--border);
 
 }
@@ -1008,7 +1055,7 @@ footer {
     justify-content: center;
     text-align: center;
     border-bottom: solid 1px var(--border);
-    padding: var(--top) var(--left) var(--top) var(--left);
+    padding: var(--top) calc(var(--page-gutter) + var(--content-inset));
 
 }
 
