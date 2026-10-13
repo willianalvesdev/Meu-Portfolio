@@ -4,7 +4,7 @@
     --accent: #373737;
     --text: #ffffff;
     --secondary-text: #969696;
-    --border: #181818;
+    --border: #202020;
     --icon-bg: #282828;
     --scrollbar: #ffffff;
     --svg-invert: 0;
@@ -178,6 +178,12 @@ header {
     height: 20px;
     filter: invert(var(--svg-invert));
     transition: filter 0.25s ease;
+
+}
+
+.github-logo {
+
+    filter: invert(var(--svg-invert));
 
 }
 
@@ -1156,6 +1162,7 @@ footer {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    margin-bottom: var(--top);
 }
 
 .footer-section {
