@@ -23,7 +23,6 @@ const titulosBio = [
   "Desenvolvedor Fullstack",
   "Desenvolvedor Frontend",
   "Desenvolvedor Backend",
-  "Desenvolvedor Mobile"
 ];
 
 const mesesGitHub = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
