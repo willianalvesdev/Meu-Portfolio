@@ -390,7 +390,7 @@ function renderizarContribuicoesGitHub(dados) {
     throw new Error("Nenhuma contribuição recebida");
   }
 
-  const contribuicoes = todasAsContribuicoes.filter((dia) => dia.date.startsWith(`${anoAtual}-`));
+  const contribuicoes = todasAsContribuicoes;
   if (contribuicoes.length === 0) throw new Error("Nenhuma contribuição recebida");
 
   const primeiroDia = new Date(`${contribuicoes[0].date}T00:00:00Z`).getUTCDay();
@@ -402,16 +402,18 @@ function renderizarContribuicoesGitHub(dados) {
   diasDoCalendario.forEach((contribuicao) => {
     const dia = document.createElement("span");
     dia.className = "contribution-day";
-    dia.setAttribute("aria-hidden", "true");
 
     if (!contribuicao) {
       dia.style.visibility = "hidden";
+      dia.setAttribute("aria-hidden", "true");
     } else {
       const data = new Date(`${contribuicao.date}T00:00:00Z`);
       const plural = contribuicao.count === 1 ? "contribuição" : "contribuições";
 
       dia.dataset.level = String(contribuicao.level);
-      dia.title = `${contribuicao.count} ${plural} em ${formatadorDataGitHub.format(data)}`;
+      dia.dataset.tooltip = `${contribuicao.count} ${plural} em ${formatadorDataGitHub.format(data)}`;
+      dia.setAttribute("aria-label", dia.dataset.tooltip);
+      dia.tabIndex = 0;
     }
 
     fragmentoDias.appendChild(dia);
@@ -444,7 +446,7 @@ function renderizarContribuicoesGitHub(dados) {
   const total = contribuicoes.reduce((soma, dia) => soma + dia.count, 0);
   const pluralTotal = total === 1 ? "contribuição" : "contribuições";
 
-  githubContributionTotal.textContent = `${total.toLocaleString("pt-BR")} ${pluralTotal} em ${anoAtual} no `;
+  githubContributionTotal.textContent = `${total.toLocaleString("pt-BR")} ${pluralTotal} no último ano no `;
   githubGrid.setAttribute("aria-label", `${total} ${pluralTotal} no GitHub em ${anoAtual}`);
 
   requestAnimationFrame(() => {
@@ -485,7 +487,6 @@ function criarProjetoGitHub(repositorio, indice) {
   const nome = document.createElement("p");
   const metadados = document.createElement("p");
   const botao = document.createElement("button");
-  const imagemExpandir = document.createElement("img");
   const detalhes = document.createElement("div");
   const conteudoDetalhes = document.createElement("div");
   const interiorDetalhes = document.createElement("div");
@@ -497,8 +498,9 @@ function criarProjetoGitHub(repositorio, indice) {
   projeto.className = `github-project${abertoInicialmente ? " aberto" : ""}`;
   linha.className = "github-project-row";
   icone.className = "icon-frame github-project-icon";
-  imagemCodigo.className = "info-icon";
-  imagemCodigo.src = "assets/Icons/Code.svg";
+  imagemCodigo.className = "project-avatar";
+  imagemCodigo.src = `https://api.dicebear.com/7.x/shapes/svg?seed=${encodeURIComponent(repositorio.name)}`;
+  imagemCodigo.loading = "lazy";
   imagemCodigo.alt = "";
 
   informacoes.className = "github-project-info";
@@ -507,14 +509,14 @@ function criarProjetoGitHub(repositorio, indice) {
   metadados.className = "github-project-meta";
 
   const criadoEm = formatadorMesProjeto.format(new Date(repositorio.created_at)).replace("/", ".");
-  const atualizadoEm = formatadorMesProjeto.format(new Date(repositorio.updated_at)).replace("/", ".");
-  metadados.textContent = `Criado em ${criadoEm} • Atualizado em ${atualizadoEm}`;
+  metadados.textContent = `${criadoEm} — ${repositorio.archived ? formatadorMesProjeto.format(new Date(repositorio.updated_at)).replace("/", ".") : "∞"}`;
+  if (!repositorio.archived) {
+    metadados.textContent = `${criadoEm} —`;
+    metadados.insertAdjacentHTML("beforeend", '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Em andamento"><path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/></svg>');
+  }
 
   botao.className = "github-project-toggle";
   botao.type = "button";
-  imagemExpandir.className = "github-project-expand-icon";
-  imagemExpandir.src = "assets/Icons/Expand.svg";
-  imagemExpandir.alt = "";
   botao.setAttribute("aria-label", `${abertoInicialmente ? "Recolher" : "Expandir"} detalhes de ${repositorio.name}`);
   botao.setAttribute("aria-expanded", String(abertoInicialmente));
   botao.setAttribute("aria-controls", detalhesId);
@@ -540,8 +542,25 @@ function criarProjetoGitHub(repositorio, indice) {
 
   icone.appendChild(imagemCodigo);
   informacoes.append(nome, metadados);
-  botao.appendChild(imagemExpandir);
-  linha.append(icone, informacoes, botao);
+  botao.innerHTML = '<svg class="project-expand-svg" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 20L12 15L17 20"/><path d="M7 4L12 9L17 4"/></svg>';
+  const linkProjeto = document.createElement("a");
+  linkProjeto.className = "project-open";
+  linkProjeto.href = repositorio.html_url;
+  if (repositorio.homepage) {
+    try {
+      const url = new URL(repositorio.homepage);
+      if (["https:", "http:"].includes(url.protocol)) linkProjeto.href = url.href;
+    } catch {}
+  }
+  linkProjeto.target = "_blank";
+  linkProjeto.rel = "noopener noreferrer";
+  linkProjeto.setAttribute("aria-label", `Abrir projeto ${repositorio.name}`);
+  linkProjeto.title = "Open Project Link";
+  linkProjeto.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>';
+  const acoes = document.createElement("div");
+  acoes.className = "project-actions";
+  acoes.append(linkProjeto, botao);
+  linha.append(icone, informacoes, acoes);
   interiorDetalhes.append(descricao, tags);
   conteudoDetalhes.appendChild(interiorDetalhes);
   detalhes.appendChild(conteudoDetalhes);

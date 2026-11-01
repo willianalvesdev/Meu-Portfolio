@@ -49,17 +49,17 @@
 }
 
 ::-webkit-scrollbar {
-    width: 2px;  
-    height: 2px; 
+    width: 5px;
+    height: 5px;
 }
   
 ::-webkit-scrollbar-track {
-    background: var(--bg); 
+    background: transparent;
 }
   
 ::-webkit-scrollbar-thumb {
-    background: var(--scrollbar);
-    border-radius: 2px;
+    background: var(--border);
+    border-radius: 5px;
 }
 
 ::selection {
@@ -127,6 +127,9 @@ body::after {
 }
 
 header {
+
+    top: 8px;
+    box-shadow: 0 -8px 0 var(--bg);
 
     position: fixed;
     background: var(--bg);
@@ -254,7 +257,7 @@ header {
 .top-section {
 
     padding-top: 50px;
-    height: 200px;
+    height: 230px;
     width: 100%;
     display: flex;
     justify-content: center;
@@ -408,23 +411,7 @@ header {
 
     display: inline-block;
     max-width: 100%;
-    opacity: 0;
-    transform: translateY(10px);
-    filter: blur(3px);
     overflow-wrap: anywhere;
-    transition:
-        opacity 0.45s ease,
-        transform 0.45s ease,
-        filter 0.45s ease;
-    transition-delay: calc(var(--word-index) * 40ms);
-    will-change: opacity, transform, filter;
-}
-
-.texto-animado.texto-visivel .scroll-word {
-
-    opacity: 1;
-    transform: translateY(0);
-    filter: blur(0);
 }
 
 .spacebig {
@@ -732,10 +719,10 @@ header {
 
 .github-calendar {
 
-    --cell-size: 12px;
-    --cell-gap: 4px;
-    padding: var(--top);
-    border: 1px solid var(--border);
+    --cell-size: 11px;
+    --cell-gap: 3px;
+    padding: 0;
+    border: 0;
     background: var(--bg);
     transition: background-color 0.25s ease, border-color 0.25s ease;
 }
@@ -758,8 +745,8 @@ header {
     display: grid;
     grid-template-columns: repeat(var(--github-weeks, 53), var(--cell-size));
     column-gap: var(--cell-gap);
-    height: 24px;
-    color: var(--secondary-text);
+    height: 22px;
+    color: var(--text);
 }
 
 .github-month-label {
@@ -781,10 +768,9 @@ header {
 
     width: var(--cell-size);
     height: var(--cell-size);
-    border-radius: 2px;
+    border-radius: 0;
     background: var(--contribution-0);
-    outline: 1px solid var(--border);
-    outline-offset: -1px;
+    outline: none;
 }
 
 .contribution-day[data-level="1"] {
@@ -812,6 +798,23 @@ header {
     padding-top: 4px;
     color: var(--secondary-text);
 }
+
+.contribution-tooltip {
+    position: fixed;
+    z-index: 100;
+    max-width: calc(100vw - 32px);
+    padding: 6px 10px;
+    border-radius: 8px;
+    background: #fafafa;
+    color: #09090b;
+    box-shadow: 0 2px 8px #0003;
+    font: 12px/16px var(--ibmmono);
+    pointer-events: none;
+    animation: contribution-tooltip-in .15s ease;
+}
+:root[data-theme="light"] .contribution-tooltip { background: #09090b; color: #fafafa; }
+@keyframes contribution-tooltip-in { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+.github-grid .contribution-day:focus-visible { outline: 1px solid var(--text); outline-offset: 2px; }
 
 .github-calendar-summary a {
 
@@ -843,7 +846,7 @@ header {
     .github-calendar {
         --cell-size: 11px;
         --cell-gap: 3px;
-        padding: var(--spacing);
+        padding: 0;
     }
 
     .github-calendar-footer {
@@ -889,9 +892,10 @@ header {
 
 .github-project-row {
 
+    position: relative;
     min-height: 80px;
     display: grid;
-    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    grid-template-columns: 40px minmax(0, 1fr) 72px;
     align-items: center;
     gap: var(--right);
     padding: 0 calc(var(--page-gutter) + var(--content-inset));
@@ -904,7 +908,7 @@ header {
 
 .github-project-name {
 
-    font-family: var(--ibmsans);
+    font-family: var(--ibmmono);
     font-size: 1rem;
     font-weight: 500;
     overflow-wrap: anywhere;
@@ -912,19 +916,28 @@ header {
 
 .github-project-meta {
 
-    padding-top: 3px;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 14px;
+    line-height: 20px;
+    padding-top: 4px;
     color: var(--secondary-text);
 }
 
 .github-project-toggle {
 
-    width: 40px;
-    height: 40px;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    padding-right: calc(var(--page-gutter) + var(--content-inset) + 8px);
+    color: var(--secondary-text);
     border: none;
     background: transparent;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
     cursor: pointer;
 }
 
@@ -953,15 +966,13 @@ header {
 
     display: grid;
     grid-template-rows: 0fr;
-    opacity: 0;
     border-top: 1px solid transparent;
-    transition: grid-template-rows 0.35s ease, opacity 0.25s ease, border-color 0.35s ease;
+    transition: grid-template-rows 0.3s ease-out, border-color 0.3s ease-out;
 }
 
 .github-project.aberto .github-project-details {
 
     grid-template-rows: 1fr;
-    opacity: 1;
     border-color: var(--border);
 }
 
@@ -1158,6 +1169,90 @@ header {
     opacity: 1;
     transform: scale(1);
 }
+
+.project-avatar { width: 30px; height: 30px; object-fit: cover; }
+.project-actions { display: flex; align-items: center; }
+.project-open { position: relative; z-index: 1; color: var(--secondary-text); text-decoration: none; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 4px; }
+.project-open:hover { color: var(--secondary-text); }
+.github-project-name { font: 500 16px/1.375 var(--ibmmono); }
+.github-project-info, .github-project-icon { pointer-events: none; }
+.github-project-toggle:hover, .github-project-toggle:focus-visible { color: var(--secondary-text); }
+.project-open, .github-project-toggle { transition: color .15s ease; }
+.project-expand-svg path { transition: d .3s cubic-bezier(.42, 0, .58, 1); }
+.project-expand-svg path:first-child { d: path("M7 15L12 20L17 15"); }
+.project-expand-svg path:last-child { d: path("M7 9L12 4L17 9"); }
+.github-project.aberto .project-expand-svg path:first-child { d: path("M7 20L12 15L17 20"); }
+.github-project.aberto .project-expand-svg path:last-child { d: path("M7 4L12 9L17 4"); }
+.stack-item { position: relative; display: inline-flex; transition: transform .2s ease; outline-offset: 5px; }
+.stack-item:hover, .stack-item:focus-visible { transform: scale(1.1); z-index: 2; }
+.stack-item::after { content: attr(data-label); position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translate(-50%, 4px); opacity: 0; pointer-events: none; background: var(--text); color: var(--bg, #0a0a0a); border-radius: 6px; padding: 5px 8px; font: 12px var(--ibmmono); white-space: nowrap; transition: .15s ease; }
+.stack-item:hover::after, .stack-item:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+.search-toggle { display: flex; align-items: center; gap: 9px; border: 1px solid var(--border); border-radius: 24px; background: color-mix(in srgb, var(--text) 5%, transparent); color: var(--secondary-text); padding: 6px 14px; cursor: pointer; transition: background .2s, transform .2s; }
+.search-toggle:hover { background: color-mix(in srgb, var(--text) 10%, transparent); }
+.search-toggle:active { transform: scale(.98); }
+.search-toggle > span { font-size: 25px; line-height: 22px; }
+kbd { font: 13px var(--ibmmono); padding: 2px 4px; border-radius: 4px; background: color-mix(in srgb, var(--text) 8%, transparent); }
+.command-dialog { position: fixed; inset: 0; width: min(512px, calc(100% - 32px)); max-height: calc(100dvh - 80px); padding: 0; border: 1px solid var(--border); border-radius: 16px; background: var(--background, #171719); color: var(--text); box-shadow: 0 20px 80px #0005; font: 14px var(--ibmmono); }
+.command-dialog { inset: 50% auto auto 50%; margin: 0; transform: translate(-50%, -50%); box-sizing: border-box; width: min(512px, calc(100% - 32px)); height: 408px; background: #18181b; color: #fafafa; border: 0; box-shadow: 0 0 0 1px #3f3f46, 0 0 24px #0008; }
+:root[data-theme="light"] .command-dialog { background: #fff; color: #09090b; box-shadow: 0 0 0 1px #00000026, 0 0 24px #0003; }
+.command-dialog[open] { animation: command-in .2s ease; }
+.command-dialog.closing { animation: command-in .2s ease reverse forwards; }
+.command-dialog.closing::backdrop { animation: backdrop-out .2s ease forwards; }
+.command-wa { width: 20px; height: 20px; object-fit: contain; filter: invert(var(--svg-invert)); }
+@keyframes backdrop-out { to { background: #0000; } }
+.command-dialog::backdrop { background: #0008; backdrop-filter: none; }
+.command-input { display: flex; height: 48px; box-sizing: border-box; align-items: center; gap: 8px; padding: 0 16px; border-bottom: 1px solid var(--border); }
+.command-input input { flex: 1; min-width: 0; color: inherit; background: none; border: 0; outline: 0; font: inherit; }
+.command-input button { background: none; color: inherit; border: 0; cursor: pointer; font-size: 22px; }
+.command-results { height: 320px; box-sizing: border-box; overflow: auto; padding: 4px; }
+@property --top-mask-height { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --bottom-mask-height { syntax: '<length>'; inherits: false; initial-value: 80px; }
+@supports (animation-timeline: scroll()) {
+    .command-results {
+        mask-image: linear-gradient(to top, transparent, #000 90%), linear-gradient(to bottom, transparent, #000), linear-gradient(#000, #000);
+        mask-size: 100% var(--top-mask-height), 100% var(--bottom-mask-height), 100% 100%;
+        mask-position: 0 0, 0 100%, 0 0;
+        mask-repeat: no-repeat;
+        mask-composite: exclude;
+        animation: command-top-mask linear both, command-bottom-mask linear both;
+        animation-timeline: scroll(self), scroll(self);
+        animation-range: 0 32px, calc(100% - 32px) 100%;
+    }
+}
+@keyframes command-top-mask { to { --top-mask-height: 80px; } }
+@keyframes command-bottom-mask { to { --bottom-mask-height: 0px; } }
+.command-results button { display: block; width: 100%; text-align: left; border: 0; border-radius: 12px; padding: 10px 12px; color: inherit; font: inherit; background: none; cursor: pointer; }
+.command-results button.selected, .command-results button:hover { background: color-mix(in srgb, var(--text) 10%, transparent); }
+.command-footer { display: flex; height: 40px; box-sizing: border-box; align-items: center; justify-content: space-between; padding: 0 16px; border-top: 1px solid var(--border); color: var(--secondary-text); font-size: 12px; background: #27272a4d; }
+.command-footer img { width: 24px; filter: invert(var(--svg-invert)); }
+.command-results button { display: flex; align-items: center; gap: 8px; padding: 8px 12px; min-height: 36px; }
+.command-results button svg { width: 20px; height: 20px; flex-shrink: 0; color: var(--secondary-text); }
+.command-input svg { display: block; width: 20px; height: 20px; opacity: .5; }
+.command-input button svg { width: 16px; height: 16px; }
+.search-toggle svg { display: block; width: 16px; height: 16px; }
+.search-toggle { box-sizing: border-box; height: 32px; padding: 0 14px; gap: 6px; border-radius: 999px; background: #18181b; border-color: #27272a; }
+.search-toggle kbd { display: inline-flex; box-sizing: border-box; height: 20px; min-width: 24px; align-items: center; justify-content: center; padding: 0 4px; font: 400 13px/20px var(--ibmsans); box-shadow: inset 0 -1px 2px #ffffff1a; background: #ffffff1a; }
+:root[data-theme="light"] .search-toggle { background: #fafafa; border-color: #e4e4e7; color: #71717b; }
+:root[data-theme="light"] .search-toggle:hover { background: #fafafa; }
+.search-toggle:hover { background: #18181b; }
+:root[data-theme="light"] .search-toggle kbd { background: #0000000d; box-shadow: inset 0 -1px 2px #0000001a; }
+.command-results button.selected, .command-results button:hover { background: #27272a; }
+:root[data-theme="light"] .command-results button.selected, :root[data-theme="light"] .command-results button:hover { background: #f4f4f5; }
+:root[data-theme="light"] .command-footer { background: #f4f4f54d; }
+@keyframes command-in { from { opacity: 0; transform: translate(-50%, -50%) scale(.95); } to { opacity: 1; transform: translate(-50%, -50%) scale(1); } }
+.pullcord { display: none; position: fixed; top: 0; right: 7rem; width: 64px; height: 340px; z-index: 20; pointer-events: none; }
+.pullcord circle { transition: none; }
+.pullcord button { position: absolute; left: 9px; top: 153px; width: 46px; height: 46px; background: transparent; border: 0; pointer-events: auto; cursor: grab; touch-action: none; transform: translateY(var(--pull, 0px)); transition: transform .55s cubic-bezier(.2, 1.7, .4, 1); }
+.pullcord.pulling button, .pullcord.pulling circle { transition: none; cursor: grabbing; }
+.pullcord button { transition: none; }
+.pullcord > svg { overflow: visible; }
+.pullcord > span { position: absolute; top: 172px; right: 52px; color: var(--secondary-text); display: flex; align-items: flex-end; gap: 10px; white-space: nowrap; }
+.cord-hint-text { font-family: "Caveat", "Segoe Script", cursive; text-align: right; font-size: 21px; font-weight: 600; line-height: .95; }
+.cord-hint-arrow { flex: none; transform: rotate(16deg); }
+@media (min-width: 1200px) { .pullcord { display: block; } .header-divider, .theme-toggle { display: none; } }
+@media (max-width: 620px) { .github-project-row { grid-template-columns: 34px minmax(0, 1fr) 64px; } .command-dialog { top: 64px; margin: 0; transform: translateX(-50%); } .command-dialog[open] { animation: command-mobile-in .2s ease; } }
+@keyframes command-mobile-in { from { opacity: 0; transform: translateX(-50%) scale(.95); } to { opacity: 1; transform: translateX(-50%) scale(1); } }
+@media (max-width: 620px) { .command-dialog.closing { animation: command-mobile-in .2s ease reverse forwards; } }
 
 footer {
 
