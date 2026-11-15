@@ -574,6 +574,7 @@ header {
 
 .contact-container {
 
+    position: relative;
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     display: flex;
@@ -624,6 +625,17 @@ header {
     display: flex;
     align-items: center;
     padding: 0 0 0 var(--right);
+}
+
+.contact-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+}
+
+.contact-link:focus-visible::after {
+    outline: 2px solid var(--text);
+    outline-offset: -2px;
 }
 
 @media (min-width: 761px) {
