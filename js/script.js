@@ -499,7 +499,16 @@ function criarProjetoGitHub(repositorio, indice) {
   linha.className = "github-project-row";
   icone.className = "icon-frame github-project-icon";
   imagemCodigo.className = "project-avatar";
-  imagemCodigo.src = `https://api.dicebear.com/7.x/shapes/svg?seed=${encodeURIComponent(repositorio.name)}`;
+  const iconesProjetos = {
+    "Meu-Portfolio": "Myportfolio.svg",
+    "Super-Mario-World": "MarioWorld.svg",
+    "Comet": "Comet1.svg",
+    "Doomsday-Trainer": "Doomsday.svg",
+    "Roll-Joll-Treinador": "RollJoll.svg"
+  };
+  imagemCodigo.src = iconesProjetos[repositorio.name]
+    ? `assets/projects/${iconesProjetos[repositorio.name]}`
+    : "assets/Icons/Code.svg";
   imagemCodigo.loading = "lazy";
   imagemCodigo.alt = "";
 

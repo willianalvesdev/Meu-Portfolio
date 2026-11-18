@@ -1157,6 +1157,9 @@ header {
 .logo-brand-two,
 .logo-footer,
 .stack-logo[src$="chatgpt.svg"],
+.stack-logo[src$="cursor.svg"],
+.stack-logo[src$="ollama.svg"],
+.stack-logo[src$="githubcopilot.svg"],
 .info-icon,
 .goto,
 #btnTopo img {
